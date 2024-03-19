@@ -1,24 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 
 
-function Frontpage() {
+function Frontpage(props) {
+  const startQuiz = () => props.start();
+
   return (
     <Main>
         <Heading>Quizzical</Heading>
         <Description>Test your knowledge!😎</Description>
-        <StartBtn>Start Quiz</StartBtn>
+        <StartBtn onClick={startQuiz}>Start Quiz</StartBtn>
         <Select>
-            <option value="">General Knowledge</option>
-            <option value="">Animals</option>
-            <option value="">Sports</option>
-            <option value="">Science & Nature</option>
-            <option value="">Cartoons</option>
-            <option value="">Gadgets</option>
-            <option value="">Anime</option>
-            <option value="">Computers</option>
-            <option value="">Mathematics</option>
-            <option value="">Mythology</option>
+            <option value="0">General Knowledge</option>
+            <option value="1">Animals</option>
+            <option value="2">Sports</option>
+            <option value="3">Science & Nature</option>
+            <option value="4">Cartoons</option>
+            <option value="5">Gadgets</option>
+            <option value="6">Anime</option>
+            <option value="7">Computers</option>
+            <option value="8">Mathematics</option>
+            <option value="9">Mythology</option>
         </Select>
     </Main>
   )

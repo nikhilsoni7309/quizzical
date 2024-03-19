@@ -2,13 +2,28 @@ import styled from "styled-components"
 import './App.css'
 import Frontpage from "./components/Frontpage"
 import Question from "./components/Question"
+import { decode } from 'html-entities'
+import { nanoid } from 'nanoid'
+import { useEffect,useState } from "react"
 
 
 function App() {
 
+  const [gameStart, setGameStart] = useState(false)
+  const [questions, setQuestions] = useState(null)
+  const [count, setCount] = useState(0)
+  const [checked, setChecked] = useState(false)
+  const [correctAns, setCorrectAns] = useState(true)
+
+  const shuffleArray = (arr) => arr.sort(() => Math.random()-0.10)
+
+  useEffect(() => {
+    
+  })
+
   return (
 
-    
+
 
     // <Frontpage />
     <Question />

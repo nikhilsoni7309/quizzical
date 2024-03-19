@@ -1,15 +1,41 @@
 import React from 'react'
 import styled from 'styled-components'
+import { decode } from 'html-entities'
+import { nanoid } from 'nanoid'
 
-function Question() {
+function Question(props) {
+
+  const answers = props.q.answers
+
+  const handleClick = (answer) => {
+    if(props.q.checked){
+        return 
+    }
+
+    props.handleClickAnswer(props.id, answer)
+  }
+
+  const answerElements = answers.map((ans) => {
+    let id = null;
+    if(props.q.checked){
+        if(props.q.correct === ans){
+            id="correct"
+        }
+        else if(props.q.selected === ans){
+            id="incorrect"
+        }
+        else{
+            id="non-selected"
+        }
+    }
+    return <button key={nanoid()} id={id} className={ans === props.q.selected ? 'answer Selected' : 'answer'} onClick={() => handleClick(ans)}>{decode(ans)}</button>
+  })
+
   return (
     <Container>
-      <h2>Earth is located in which galaxy?</h2>
+      <h2>{decodeURI(props.q.question)}</h2>
       <Options>
-        <div>milky way</div>
-        <div>akash ganga</div>
-        <div>akash yamuna</div>
-        <div>coffee way</div>
+        {answerElements}
       </Options>
     </Container>
   )

@@ -3,28 +3,38 @@ import styled from "styled-components"
 
 
 function Frontpage(props) {
-  const startQuiz = () => props.start();
 
   return (
     <Main>
         <Heading>Quizzical</Heading>
         <Description>Test your knowledge!😎</Description>
-        <StartBtn onClick={startQuiz}>Start Quiz</StartBtn>
+        <StartBtn onClick={props.start}>Start Quiz</StartBtn>
         <Select>
-            <option value="0">General Knowledge</option>
-            <option value="1">Animals</option>
-            <option value="2">Sports</option>
-            <option value="3">Science & Nature</option>
-            <option value="4">Cartoons</option>
-            <option value="5">Gadgets</option>
-            <option value="6">Anime</option>
-            <option value="7">Computers</option>
-            <option value="8">Mathematics</option>
-            <option value="9">Mythology</option>
+            <option value="9">General Knowledge</option>
+            <option value="27">Animals</option>
+            <option value="21">Sports</option>
+            <option value="17">Science & Nature</option>
+            <option value="32">Cartoons</option>
+            <option value="30">Gadgets</option>
+            <option value="31">Anime</option>
+            <option value="18">Computers</option>
+            <option value="19">Mathematics</option>
+            <option value="20">Mythology</option>
         </Select>
     </Main>
   )
 }
+
+// Cartoon: https://opentdb.com/api.php?amount=10&category=32
+// Anime: https://opentdb.com/api.php?amount=10&category=31
+// Gadgets: https://opentdb.com/api.php?amount=10&category=30
+// Animals: https://opentdb.com/api.php?amount=10&category=27
+// Sports: https://opentdb.com/api.php?amount=10&category=21
+// Mythology: https://opentdb.com/api.php?amount=10&category=20
+// Mathematics: https://opentdb.com/api.php?amount=10&category=19
+// Computers: https://opentdb.com/api.php?amount=10&category=18
+// General Knowledge: https://opentdb.com/api.php?amount=10&category=9
+// Science & Nature: https://opentdb.com/api.php?amount=10&category=17
 
 const Main = styled.div`
   height: 100vh;

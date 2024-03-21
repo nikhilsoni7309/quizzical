@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 
 function Frontpage(props) {
-  const [selectedCategory, setSelectedCategory] = useState("9");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleCategoryChange = (event) => {
     const category = event.target.value
@@ -36,7 +36,7 @@ function Frontpage(props) {
 
 const Main = styled.div`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: #563680;
   display: flex;
   flex-direction: column;
@@ -47,7 +47,7 @@ const Heading = styled.h1`
   color: white;
   font-family: cursive;
   font-weight: bold;
-  font-size: 4rem;
+  font-size: 5vw;
   letter-spacing: 0.1rem;
 
   animation-name: changeColor;
@@ -65,16 +65,17 @@ const Description = styled.h2`
   color: white;
   margin: 1rem;
   font-family: cursive;
+  font-size: 2vw;
 `
 const StartBtn = styled.button`
   color: white;
   font-weight: bold;
   font-family: cursive;
-  font-size: large;
+  font-size: 1.5vw;
   background-color: #3b1472;
   margin: 1rem;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   border: 1px solid white;
   cursor: pointer;
 
@@ -87,7 +88,7 @@ const Select = styled.select`
     padding: 0.5rem;
     margin: 0.5rem;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.2vw;
     border: 1px solid white;
     border-radius: 1rem;
     background-color: white;
@@ -95,8 +96,8 @@ const Select = styled.select`
     text-align: center;
 
     option {
-        color: white;
-        background-color: #3b1472;
+      color: white;
+      background-color: #3b1472;
     }
 `
 

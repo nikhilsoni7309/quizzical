@@ -121,10 +121,10 @@ function App() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
 `
 const Main = styled.div`
-  width: 100vw;
+  width: 100%;
 `
 const ResultBox = styled.div`
   display: flex;

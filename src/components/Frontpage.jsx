@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 
 function Frontpage(props) {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("9");
 
   const handleCategoryChange = (event) => {
     const category = event.target.value

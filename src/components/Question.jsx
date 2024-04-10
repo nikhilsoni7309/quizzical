@@ -52,7 +52,7 @@ const Container = styled.div`
   align-items: center;
   color: #563680;
   font-family: cursive;
-  background-color: #f6ecff;
+  background-color: #e8d7f7;
 `;
 
 const QuestionBox = styled.div`
@@ -69,6 +69,7 @@ const Line = styled.div`
 
 const Options = styled.div`
   display: flex;
+  flex-wrap: wrap;
   padding-block: 0.5rem;
   margin: 1rem;
   margin-left: 0;

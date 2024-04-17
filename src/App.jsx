@@ -1,131 +1,158 @@
-import styled from "styled-components"
-import './App.css'
-import Frontpage from "./components/Frontpage"
-import Question from "./components/Question"
-import { useEffect, useState } from "react"
-import { decode } from "html-entities"
-import { nanoid } from "nanoid"
-
-
-
+import styled from "styled-components";
+import "./App.css";
+import Frontpage from "./components/Frontpage";
+import Question from "./components/Question";
+import { useEffect, useState } from "react";
+import { decode } from "html-entities";
+import { BeatLoader } from "react-spinners";
+import { nanoid } from "nanoid";
 
 function App() {
-
   const [questions, setQuestions] = useState([]);
   const [gameStart, setGameStart] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("9");
-  
-  const [count, setCount] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [loading, setLoading] = useState(true);
   const [checked, setChecked] = useState(false);
   const [correctAns, setCorrectAns] = useState(0);
-  const [loading, setLoading] = useState(true)
 
-  const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5)
+  const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
+
+  const fetchQuestions = async () => {
+    const res = await fetch(
+      `https://opentdb.com/api.php?amount=10&category=${selectedCategory}`
+    );
+    const data = await res.json();
+    console.log(data);
+    let questionArray = [];
+    data.results.forEach((question) => {
+      questionArray.push({
+        id: nanoid(),
+        answers: shuffleArray([
+          ...question.incorrect_answers,
+          question.correct_answer,
+        ]),
+        question: question.question,
+        correct: question.correct_answer,
+        selected: null,
+        checked: false,
+      });
+    });
+    setLoading(false);
+    setQuestions(questionArray);
+  };
 
   useEffect(() => {
-      const fetchQuestions = async() => {
-        setLoading(true)
-        const res = await fetch(`https://opentdb.com/api.php?amount=10&category=${selectedCategory}`);
-        const data = await res.json();
-        let questionArray = [];
-        data.results.forEach((question) => {
-          questionArray.push(
-            {
-              id: nanoid(),
-              answers: shuffleArray([...question.incorrect_answers, question.correct_answer]),
-              question: question.question,
-              correct: question.correct_answer,
-              selected: null,
-              checked: false
-            }
-          )
-        })
-        setQuestions(questionArray);
-        setLoading(false)
-      };
+    console.log("hello");
+    if (gameStart === true) {
       fetchQuestions();
-  }, [count]);
-
+    }
+  }, [gameStart]);
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category)
-  }
+    setSelectedCategory(category);
+  };
 
   const handleCheck = () => {
     let selected = true;
-    questions.map(question => {
-      if(question.selected === null){
-        return
+    questions.map((question) => {
+      if (question.selected === null) {
+        return;
       }
 
-      setQuestions(questions => questions.map((question) => {
-        return { ...question, checked: true }
-      }))
+      setQuestions((questions) =>
+        questions.map((question) => {
+          return { ...question, checked: true };
+        })
+      );
 
-      setChecked(true)
-      let correct = 0
-      questions.forEach(question => {
-        if(question.correct === question.selected) {
+      setChecked(true);
+      let correct = 0;
+      questions.forEach((question) => {
+        if (question.correct === question.selected) {
           correct += 1;
         }
-      })
-      setCorrectAns(correct)
-    })
-  }
+      });
+      setCorrectAns(correct);
+    });
+  };
 
   const handleSelectAnswer = (id, answer) => {
-    setQuestions(questions => questions.map((question) => {
-      return question.id === id ? {...question, selected: answer} : question
-    }))
-  }
+    setQuestions((questions) =>
+      questions.map((question) => {
+        return question.id === id
+          ? { ...question, selected: answer }
+          : question;
+      })
+    );
+  };
 
-  const questionElements = questions ? questions.map((question) => {
-    return (
-      <Question
-        key={question.id}
-        q={question}
-        id={question.id}
-        handleSelectAnswer={handleSelectAnswer}
-      />  
-    )
-  }) : []
+  const questionElements = questions
+    ? questions.map((question) => {
+        return (
+          <Question
+            key={question.id}
+            q={question}
+            id={question.id}
+            handleSelectAnswer={handleSelectAnswer}
+          />
+        );
+      })
+    : [];
 
   function start() {
-    setGameStart(prev => !prev)
+    setGameStart((prev) => !prev);
   }
 
   function handlePlayAgain() {
-    setCount(prev => prev + 1)
-    setChecked(false)
+    setLoading(true);
+    fetchQuestions();
+    setChecked(false);
   }
 
   return (
     <Container>
-      
-      {gameStart 
-      ? 
-      <Main>
-        {questionElements}
-        <ResultBox>
-          {checked && <p>Correct Answers: {correctAns}/10 </p>}
-          {questionElements.length > 0 && !loading ? <button onClick={checked ? handlePlayAgain : handleCheck}>{checked ? "Play Again" : "Check Answers"}</button> : ""}
-        </ResultBox>
-      </Main>
-      :
-      <Frontpage start={start} onCategoryChange={handleCategoryChange}/>
-      }
-
+      {gameStart ? (
+        loading === true ? (
+          <BeatLoader
+            style={{
+              width: "100vw",
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#e8d7f7",
+            }}
+            color="#3b1472"
+          />
+        ) : (
+          <Main>
+            {questionElements}
+            <ResultBox>
+              {checked && <p>Correct Answers: {correctAns}/10 </p>}
+              {questionElements.length > 0 ? (
+                <button onClick={checked ? handlePlayAgain : handleCheck}>
+                  {checked ? "Play Again" : "Check Answers"}
+                </button>
+              ) : (
+                ""
+              )}
+            </ResultBox>
+          </Main>
+        )
+      ) : (
+        <Frontpage start={start} onCategoryChange={handleCategoryChange} />
+      )}
     </Container>
-
-  )
+  );
 }
 
 const Container = styled.div`
   width: 100%;
-`
+`;
 const Main = styled.div`
   width: 100%;
-`
+`;
 const ResultBox = styled.div`
   display: flex;
   justify-content: center;
@@ -158,7 +185,6 @@ const ResultBox = styled.div`
       background-color: #f6ecff;
     }
   }
-`
+`;
 
-
-export default App
+export default App;
